@@ -22,6 +22,13 @@ current_time = datetime.datetime.now()
 current_time_ns = current_time.microsecond * 1000
 offset_time_ns = current_time_ns - year31_nanoseconds - (1*24*60*60*1e9)
 
-res = cur.execute(f"SELECT text, date, handle_id FROM message WHERE is_read = 0 AND is_from_me = 0 AND text is NOT NULL AND date >= {offset_time_ns} ORDER BY date DESC")
+res = cur.execute(f"SELECT * FROM message WHERE is_read = 0 AND is_from_me = 0 AND text is NOT NULL AND date >= {offset_time_ns} ORDER BY date DESC LIMIT 3")
 
 print(res.fetchall())
+
+#res2 = cur.execute("SELECT text FROM message WHERE cache_roomnames = 'chat107061102355140117' ")
+"""
+select chat.display_name from message.cache_roomnames join with chat.room_name --> Groupchat Name
+select handle.id from message.handle_id join with handle.ROW_ID --> Phone Number/Email
+"""
+#print(res2.fetchall())
