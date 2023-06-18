@@ -3,21 +3,27 @@
     windows_subsystem = "windows"
 )]
 
-use std::time::{SystemTime, UNIX_EPOCH};
-
-#[tauri::command]
-fn on_button_clicked() -> String {
-    let start = SystemTime::now();
-    let since_the_epoch = start
-        .duration_since(UNIX_EPOCH)
-        .expect("Time went backwards")
-        .as_millis();
-    format!("on_button_clicked called from Rust! (timestamp: {since_the_epoch}ms)")
-}
+use tauri::{CustomMenuItem, SystemTrayMenu, SystemTray, SystemTrayEvent};
 
 fn main() {
+    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+
+    let tray_menu = SystemTrayMenu::new().add_item(quit);
+    let tray = SystemTray::new().with_menu(tray_menu);
+
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![on_button_clicked])
+        .system_tray(tray)
+        .on_system_tray_event(|_app, event| match event {
+            SystemTrayEvent::MenuItemClick { id, .. } => {
+                match id.as_str() {
+                    "quit" => {
+                        std::process::exit(0);
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
