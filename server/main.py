@@ -2,13 +2,23 @@ from flask_cors import CORS
 from waitress import serve
 from flask import Flask, current_app
 from flask_cors import CORS
+from flask import Flask
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 import db
 import llm
 from pprint import pprint
 
-app = Flask(__name__)
-CORS(app)
+app = FastAPI()
 app.debug = True
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/api/topics")
 def get_topics():
@@ -53,4 +63,4 @@ def my_middleware(app):
     return middleware
 
 if __name__ == '__main__':
-    serve(my_middleware(app), host='0.0.0.0', port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=8000)
