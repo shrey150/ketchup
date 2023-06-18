@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import uvicorn
 import db
 import llm
-import py_imessage
+import message_sender
 from pprint import pprint
 from contacts import ContactInfo
 
