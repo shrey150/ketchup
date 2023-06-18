@@ -67,3 +67,27 @@ def generate_summary(messages):
     )
 
     return response.choices[0].message.content
+
+def generate_bullets(messages):
+
+    prompt = ""
+
+    for row_id in messages:
+        text, date, handle_id, display_name = messages[row_id]
+        prompt += f"{text}\n"
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": "Create a bulleted summary of the following messages, using roughly three bullets in total. Each bullet should be a complete sentence beginning on a newline with zero extra characters."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    )
+
+    return response.choices[0].message.content
