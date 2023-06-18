@@ -60,7 +60,7 @@ def generate_summary(messages):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        temperature=0,
+        temperature=0.1,
         messages=[
             {
                 "role": "system",
@@ -84,7 +84,7 @@ def generate_bullets(messages):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        temperature=0,
+        temperature=0.1,
         messages=[
             {
                 "role": "system",

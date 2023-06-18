@@ -27,7 +27,7 @@ def organize_by_chat(messages):
     chats = {}
 
     for row_id in messages:
-        text, date, handle_id, display_name = messages[row_id]
+        text, date, handle_id, display_name, guid = messages[row_id]
         if display_name not in chats:
             chats[display_name] = {}
         
