@@ -12,6 +12,7 @@ export interface Topic {
   description: string;
   summary: string[];
   messages: Message[];
+  textResponse: string;
 }
 
 export interface Message {
@@ -109,6 +110,7 @@ export const useKetchupState = create(
         console.log("Error pinging server");
       }
     },
+
 
     fetchUnreadCount: async () => {
       try {
