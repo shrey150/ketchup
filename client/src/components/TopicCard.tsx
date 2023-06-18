@@ -1,3 +1,5 @@
+import { useRouter } from "next/router"
+
 export type TopicCardProps = {
   id: number
   name: string
@@ -8,16 +10,30 @@ export type TopicCardProps = {
 }
 
 const TopicCard = ({
+  id,
   name,
   description,
   numMessages,
   emoji,
   summary,
 }: TopicCardProps) => {
+
+  const router = useRouter()
+
+  const handleClick = () => {
+    router.push(`/topics/${id}`)
+  }
+
   return (
-    <div>
-      <h1>{name}</h1>
-      <h3>{description}</h3>
+    <div className="hover:opacity-75 hover:bg-slate-300 p-4" onClick={handleClick}>
+      <div className="flex justify-between">
+        <div className="flex">
+          <h1 className="text-xl">{emoji}</h1>
+          <h1 className="text-xl">{name}</h1>
+        </div>
+        <h1 className="text-xl bg-red-600 text-white rounded-lg px-2">{numMessages}</h1>
+      </div>
+      <h3 className="text-sm">{description}</h3>
     </div>
   );
 }
