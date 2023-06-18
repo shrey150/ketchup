@@ -25,11 +25,15 @@ def ping():
 
 contacts =  ContactInfo().get()
 
-class Input(BaseModel):
+class ContactInfoInput(BaseModel):
     identifiers: List[str]
 
+class SendMessageInput(BaseModel):
+    message: str
+    roomName: str
+
 @app.post("/api/contact-info")
-def get_contact_info(input: Input):
+def get_contact_info(input: ContactInfoInput):
     identifiers = input.identifiers
     return [contacts[identifier] for identifier in identifiers]
 
@@ -142,10 +146,10 @@ def get_unread_messages():
     return response
 
 @app.post("/api/send-message")
-def send_message(input):
+def send_message(input: SendMessageInput):
     print("Attempting to send message")
-    message = input["message"]
-    roomName = input["roomName"]
+    message = "'" + input.message + "'"
+    roomName = "'" + input.roomName + "'"
     if "chat" in roomName:
         message_sender.send_to_group(roomName, message)
     else:
