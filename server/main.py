@@ -46,6 +46,41 @@ def get_topics():
     print('Returning topics')
     return response
 
+@app.get("/api/topics/by-chat")
+def get_topics():
+    print('Fetching messages')
+
+    messages = db.get_messages(days_ago=1)
+
+    print('Generating topics')
+
+    chats = db.organize_by_chat(messages)
+    topics = []
+
+    for chat_name in chats:
+        topics.extend(llm.generate_topics(chats[chat_name]))
+
+    print('Got topics!')
+    pprint(topics)
+    response = []
+    topic_id = 0
+    for emoji, title, IDs in topics:
+        topic_messages_dict = {ID: messages[ID] for ID in IDs}
+        print('Generating summary')
+        summary = llm.generate_summary(topic_messages_dict)
+        print('Generating bullets')
+        bullets = llm.generate_bullets(topic_messages_dict)
+        topic_messages = []
+        dates = []
+        for ID in topic_messages_dict:
+            text, date, handle_id, display_name = topic_messages_dict[ID]
+            dates.append(date)
+            topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
+        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
+        topic_id += 1
+    print('Returning topics')
+    return response
+
 
 @app.get("/api/topics/unread")
 def get_unread_messages():

@@ -6,6 +6,19 @@ user = getpass.getuser()
 con = sqlite3.connect(f"/Users/{user}/Library/Messages/chat.db", check_same_thread=False)
 cur = con.cursor()
 
+def organize_by_chat(messages):
+
+    chats = {}
+
+    for row_id in messages:
+        text, date, handle_id, display_name = messages[row_id]
+        if display_name not in chats:
+            chats[display_name] = {}
+        
+        chats[display_name][row_id] = messages[row_id]
+    
+    return chats
+
 def get_messages(days_ago):
 
     now = datetime.datetime.now()

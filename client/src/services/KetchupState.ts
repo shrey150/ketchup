@@ -1,32 +1,32 @@
-import { create } from "zustand"
-import { immer } from "zustand/middleware/immer"
-import axios from 'axios'
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import axios from "axios";
 
 export interface Topic {
-  id: number
-  name: string
-  emoji: string
-  numMessages: number
-  description: string
-  summary: string[]
-  messages: Message[]
+  id: number;
+  name: string;
+  emoji: string;
+  numMessages: number;
+  description: string;
+  summary: string[];
+  messages: Message[];
 }
 
 export interface Message {
-  roomName: string,
-  senderName: string,
-  text: string,
-  timestamp: string
+  roomName: string;
+  senderName: string;
+  text: string;
+  timestamp: string;
 }
 
 export interface KetchupProps {
-  topics: Topic[],
+  topics: Topic[];
 }
 
 export interface KetchupActions {
-  ping: () => void,
-  getTopics: () => void,
-  sendMessage: (message: string, roomName: string) => Promise<void>,
+  ping: () => void;
+  getTopics: () => void;
+  sendMessage: (message: string, roomName: string) => Promise<void>;
 }
 
 export const EXAMPLE_PAYLOAD = {
@@ -45,18 +45,18 @@ export const EXAMPLE_PAYLOAD = {
       ],
       messages: [
         {
-          roomName:"Craft2",
+          roomName: "Craft2",
           senderName: "Tyler",
-          text:"Yo",
-          timestamp:"00:00"
+          text: "Yo",
+          timestamp: "00:00",
         },
         {
-          roomName:"Craft2",
-          senderName:"Shrey",
-          text:"hi",
-          timestamp:"00:11"
-        } 
-      ]
+          roomName: "Craft2",
+          senderName: "Shrey",
+          text: "hi",
+          timestamp: "00:11",
+        },
+      ],
     },
     {
       id: 1,
@@ -72,21 +72,21 @@ export const EXAMPLE_PAYLOAD = {
       ],
       messages: [
         {
-          roomName:"Craft2",
+          roomName: "Craft2",
           senderName: "Anshu",
-          text:"I'm dorkcore !!",
-          timestamp:"00:00"
+          text: "I'm dorkcore !!",
+          timestamp: "00:00",
         },
         {
-          roomName:"Craft2",
-          senderName:"Shrey",
-          text:"yep",
-          timestamp:"00:12"
-        } 
-      ]
+          roomName: "Craft2",
+          senderName: "Shrey",
+          text: "yep",
+          timestamp: "00:12",
+        },
+      ],
     },
   ],
-}
+};
 
 export const useKetchupState = create(
   immer<KetchupProps & KetchupActions>((set, get) => ({
@@ -94,18 +94,17 @@ export const useKetchupState = create(
 
     ping: async () => {
       try {
-        const res = await fetch("http://localhost:8000/ping")
-        const json = await res.json()
-        console.log(json)
-      }
-      catch {
-        console.log('Error pinging server')
+        const res = await fetch("http://localhost:8000/ping");
+        const json = await res.json();
+        console.log(json);
+      } catch {
+        console.log("Error pinging server");
       }
     },
 
     getTopics: async () => {
       try {
-        console.log('Fetching topics')
+        console.log("Fetching topics");
         // const res = await fetch("http://localhost:8000/api/topics", {
         //   method: "GET",
         //   headers: {
@@ -119,19 +118,20 @@ export const useKetchupState = create(
         // set({ topics })
 
         // rewrite the above request using axios
-        const res = await axios.get("http://localhost:8000/api/topics", {
-          timeout: 1000*5*60,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        const topics = res.data
-        console.log(topics)
-        set({ topics })
-
-      }
-      catch {
-        console.log('Error fetching topics')
+        const res = await axios.get(
+          "http://localhost:8000/api/topics/by-chat",
+          {
+            timeout: 1000 * 5 * 60,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const topics = res.data;
+        console.log(topics);
+        set({ topics });
+      } catch {
+        console.log("Error fetching topics");
       }
     },
 
@@ -142,23 +142,22 @@ export const useKetchupState = create(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ message, roomName }),
-      })
+      });
     },
-  })),
-)
-
+  }))
+);
 
 export const EXAMPLE_PAYLOAD_MESSAGE = [
   {
-    roomName:"Craft2",
+    roomName: "Craft2",
     senderName: "Tyler",
-    text:"Yo",
-    timestamp:"00:00"
+    text: "Yo",
+    timestamp: "00:00",
   },
   {
-    roomName:"Craft2",
-    senderName:"Shrey",
-    text:"hi",
-    timestamp:"00:11"
-  }
-]
+    roomName: "Craft2",
+    senderName: "Shrey",
+    text: "hi",
+    timestamp: "00:11",
+  },
+];

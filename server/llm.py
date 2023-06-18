@@ -10,6 +10,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def generate_topics(messages):
     prompt = ""
 
+    print(messages)
+
     for row_id in messages:
         text, date, handle_id, display_name = messages[row_id]
         prompt += f"{row_id}: {text}\n"
