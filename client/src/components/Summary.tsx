@@ -4,7 +4,7 @@ type SummaryProps = {
 
 const Summary = ({ summary }: SummaryProps) => (
     <ul className="list-disc p-4">
-        {summary.map((message, i) => (
+        {summary?.map((message, i) => (
           <li key={i}>{message}</li>
         ))}
     </ul>
