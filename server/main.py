@@ -2,14 +2,19 @@ from waitress import serve
 from flask import Flask
 import db
 import llm
+from pprint import pprint
 
 app = Flask(__name__)
+app.debug = True
 
 @app.get("/api/topics")
 def get_topics():
+    print('Fetching messages')
     messages = db.get_messages(days_ago=1)
+    print('Generating topics')
     topics = llm.generate_topics(messages)
-
+    print('Got topics!')
+    pprint(topics)
     reponse = []
     topic_id = 0
     for emoji, title, IDs in topics:
@@ -28,4 +33,3 @@ def get_topics():
 
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=8000)
-    print("Server running: http://localhost:8000/")

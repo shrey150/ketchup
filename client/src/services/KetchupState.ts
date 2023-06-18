@@ -22,6 +22,11 @@ export interface KetchupProps {
   topics: Topic[],
 }
 
+export interface KetchupActions {
+  getTopics: () => void,
+  sendMessage: (message: string, roomName: string) => Promise<void>,
+}
+
 export const EXAMPLE_PAYLOAD = {
   topics: [
     {
@@ -82,10 +87,25 @@ export const EXAMPLE_PAYLOAD = {
 }
 
 export const useKetchupState = create(
-  immer<KetchupProps>((set, get) => ({
-    // topics: [],
-    // messages: [],
-    ...EXAMPLE_PAYLOAD,
+  immer<KetchupProps & KetchupActions>((set, get) => ({
+    topics: [],
+
+    getTopics: async () => {
+      const res = await fetch("http://localhost:8000/api/topics")
+      const topics = await res.json()
+      console.log(topics)
+      set({ topics })
+    },
+
+    sendMessage: async (message: string, roomName: string) => {
+      fetch("/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message, roomName }),
+      })
+    },
   })),
 )
 

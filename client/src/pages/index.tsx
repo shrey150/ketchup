@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api/tauri"
 import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import TopicCard, { TopicCardProps } from "@/components/TopicCard"
 import { useGlobalShortcut } from "@/hooks/tauri/shortcuts"
@@ -11,6 +11,10 @@ import { EXAMPLE_PAYLOAD, Topic, useKetchupState } from "@/services/KetchupState
 const Home: NextPage = () => {
   const state = useKetchupState();
   const [topics, setTopics] = useState<Topic[]>(state.topics)
+
+  useEffect(() => {
+    state.getTopics();
+  }, [])
 
   return (
     <div className="flex p-8 min-h-screen flex-col bg-white">
