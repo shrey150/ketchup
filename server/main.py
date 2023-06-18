@@ -1,10 +1,12 @@
 from waitress import serve
 from flask import Flask
+from flask_cors import CORS
 import db
 import llm
 from pprint import pprint
 
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 @app.get("/api/topics")
