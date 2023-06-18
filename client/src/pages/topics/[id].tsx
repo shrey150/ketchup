@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { EXAMPLE_PAYLOAD, Topic, useKetchupState} from "@/services/KetchupState"
 import MessageList from "@/components/MessageList"
 import TopicBanner from "@/components/TopicBanner"
+import Summary from "@/components/Summary"
 import { useMemo, useState } from "react"
 
 
@@ -28,6 +29,7 @@ const TopicPage: NextPage = () => {
                 emoji={topic.emoji}
             />}
             <MessageList messages={topic?.messages ?? []} />
+            {topic && <Summary summary={topic.summary}/>}
             <button onClick={() => router.back()}>[Back]</button>
         </div>
     )
