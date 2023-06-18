@@ -15,8 +15,9 @@ export interface Messages {
 }
 
 export interface Message {
-  name: string
-  content: string
+  roomName: string,
+  senderName: string,
+  text: string,
   timestamp: string
 }
 
@@ -56,3 +57,18 @@ export const EXAMPLE_PAYLOAD = {
     },
   ],
 }
+
+export const EXAMPLE_PAYLOAD_MESSAGE = [
+  {
+    roomName:"Craft2",
+    senderName: "Tyler",
+    text:"Yo",
+    timestamp:"00:00"
+  },
+  {
+    roomName:"Craft2",
+    senderName:"Shrey",
+    text:"hi",
+    timestamp:"00:11"
+  }
+]
