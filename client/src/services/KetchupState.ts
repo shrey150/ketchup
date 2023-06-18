@@ -23,6 +23,7 @@ export interface KetchupProps {
 }
 
 export interface KetchupActions {
+  ping: () => void,
   getTopics: () => void,
   sendMessage: (message: string, roomName: string) => Promise<void>,
 }
@@ -90,11 +91,42 @@ export const useKetchupState = create(
   immer<KetchupProps & KetchupActions>((set, get) => ({
     topics: [],
 
+    ping: async () => {
+      try {
+        const res = await fetch("http://localhost:8000/ping")
+        const json = await res.json()
+        console.log(json)
+      }
+      catch {
+        console.log('Error pinging server')
+      }
+    },
+
     getTopics: async () => {
-      const res = await fetch("http://localhost:8000/api/topics")
-      const topics = await res.json()
-      console.log(topics)
-      set({ topics })
+      try {
+        console.log('Fetching topics')
+        // const res = await fetch("http://localhost:8000/api/topics", {
+        //   method: "GET",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     "Sec-Fetch-Mode": "no-cors",
+        //   },
+        // }
+        // )
+        // const topics = await res.json()
+        // console.log(topics)
+        // set({ topics })
+
+        // rewrite the above request using axios
+        const res = await fetch("http://localhost:8000/api/topics")
+        const topics = await res.json()
+        console.log(topics)
+        set({ topics })
+
+      }
+      catch {
+        console.log('Error fetching topics')
+      }
     },
 
     sendMessage: async (message: string, roomName: string) => {

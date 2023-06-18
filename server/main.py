@@ -20,6 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get('/ping')
+def ping():
+    return { 'pong' }
+
 @app.get("/api/topics")
 def get_topics():
     print('Fetching messages')
@@ -32,7 +36,9 @@ def get_topics():
     topic_id = 0
     for emoji, title, IDs in topics:
         topic_messages_dict = {ID: messages[ID] for ID in IDs}
+        print('Generating summary')
         summary = llm.generate_summary(topic_messages_dict)
+        print('Generating bullets')
         bullets = llm.generate_bullets(topic_messages_dict)
         topic_messages = []
         dates = []
@@ -42,6 +48,7 @@ def get_topics():
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
         reponse.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
+    print('Returning topics')
     return reponse
 
 

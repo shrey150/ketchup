@@ -10,9 +10,9 @@ import { EXAMPLE_PAYLOAD, Topic, useKetchupState } from "@/services/KetchupState
 
 const Home: NextPage = () => {
   const state = useKetchupState();
-  const [topics, setTopics] = useState<Topic[]>(state.topics)
 
   useEffect(() => {
+    state.ping();
     state.getTopics();
   }, [])
 
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       <h1 className="text-center text-3xl mb-11 font-bold">🍅 Ketchup</h1>
 
       <div className="grid grid-cols-4 gap-8">
-        {topics.map(({ id, name, description, numMessages, emoji, summary }) => (
+        {state.topics.map(({ id, name, description, numMessages, emoji, summary }) => (
           <TopicCard
             id={id}
             key={id}
