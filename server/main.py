@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import uvicorn
 import db
 import llm
-import py_imessage
+import message_sender
 from pprint import pprint
 from contacts import ContactInfo
 
@@ -138,9 +138,9 @@ def send_message(input):
     message = input["message"]
     roomName = input["roomName"]
     if "chat" in roomName:
-        py_imessage.send_to_group(roomName, message)
+        message_sender.send_to_group(roomName, message)
     else:
-        py_imessage.send_to_number(roomName, message)
+        message_sender.send_to_number(roomName, message)
     print("Sent message")
 
 def my_middleware(app):

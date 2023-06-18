@@ -27,14 +27,17 @@ const TopicCard = ({
 
   return (
     <div className="outline hover:opacity-75 hover:bg-slate-300 p-4 drop-shadow-lg" onClick={handleClick}>
-      <div className="flex justify-between">
-        <div className="flex pr-2">
-          <h1 className="text-xl">{emoji}</h1>
-          <h1 className="text-xl ">{name}</h1>
+      <div>
+        <div className="flex justify-between">
+          <div className="flex pr-2">
+            <h1 className="text-xl">{emoji}</h1>
+            <h1 className="text-xl ">{name}</h1>
+          </div>
+          <h1 className=" self-start text-xl bg-red-600 text-white rounded-lg px-2">{messageCount}</h1>
         </div>
-        <h1 className=" self-start text-xl bg-red-600 text-white rounded-lg px-2">{messageCount}</h1>
+      <h3 className="text-sm italic text-ellipsis overflow-x-hidden">{description}</h3>
       </div>
-      <h3 className="text-sm text-ellipsis overflow-x-hidden">{description}</h3>
+      
       <div className="text-ellipsis">
         <Summary summary={summary} />
       </div>
