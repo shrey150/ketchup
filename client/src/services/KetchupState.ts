@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import axios from "axios";
 
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification';
+
 export interface Topic {
   id: number;
   name: string;
@@ -21,12 +23,15 @@ export interface Message {
 
 export interface KetchupProps {
   topics: Topic[];
+  unreadCount: number;
 }
 
 export interface KetchupActions {
   ping: () => void;
   getTopics: () => void;
   sendMessage: (message: string, roomName: string) => Promise<void>;
+  fetchUnreadCount: () => Promise<void>;
+  sendToast: (message: string) => Promise<void>;
 }
 
 export const EXAMPLE_PAYLOAD = {
@@ -91,6 +96,7 @@ export const EXAMPLE_PAYLOAD = {
 export const useKetchupState = create(
   immer<KetchupProps & KetchupActions>((set, get) => ({
     topics: [],
+    unreadCount: 0,
 
     ping: async () => {
       try {
@@ -99,6 +105,28 @@ export const useKetchupState = create(
         console.log(json);
       } catch {
         console.log("Error pinging server");
+      }
+    },
+
+    fetchUnreadCount: async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/unread-count");
+        const {unreadCount} = await res.json();
+        set({ unreadCount })
+      } catch {
+        console.log("Error fetching unread counts");
+      }
+    },
+
+    sendToast: async (message) => {
+      let permissionGranted = await isPermissionGranted();
+      if (!permissionGranted) {
+        const permission = await requestPermission();
+        permissionGranted = permission === 'granted';
+      }
+      if (permissionGranted) {
+        sendNotification('Tauri is awesome!');
+        sendNotification({ title: 'Time for', body: 'this mf to build' });
       }
     },
 
