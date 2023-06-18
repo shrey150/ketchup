@@ -16,6 +16,7 @@ def generate_topics(messages):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
+        temperature=0,
         messages=[
             {
                 "role": "system",
@@ -39,7 +40,7 @@ def generate_topics(messages):
 
             title = title.strip()
 
-            IDs = [int(ID.strip()) for ID in IDs.split(",")]
+            IDs = [int(ID.strip() ) for ID in filter(bool, IDs.split(","))]
 
             topics.append((emoji, title, IDs))
         except:
@@ -49,7 +50,6 @@ def generate_topics(messages):
     return topics
 
 def generate_summary(messages):
-
     prompt = ""
 
     for row_id in messages:
@@ -58,6 +58,7 @@ def generate_summary(messages):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
+        temperature=0,
         messages=[
             {
                 "role": "system",
@@ -73,7 +74,6 @@ def generate_summary(messages):
     return response.choices[0].message.content
 
 def generate_bullets(messages):
-
     prompt = ""
 
     for row_id in messages:
@@ -82,6 +82,7 @@ def generate_bullets(messages):
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
+        temperature=0,
         messages=[
             {
                 "role": "system",
