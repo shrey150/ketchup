@@ -39,22 +39,5 @@ def get_topics():
         topic_id += 1
     return response
 
-def my_middleware(app):
-    def middleware(environ, start_response):
-        # Call the original app to get the response
-        response = app(environ, start_response)
-
-        # Add custom headers to the response
-        headers = [('Access-Control-Allow-Origin', '*'), ('Access-Control-Allow-Headers', '*'), ("X-foo", "bar")]
-        new_response = []
-        for name, value in response:
-            if name.lower() != 'content-length':
-                new_response.append((name, value))
-        new_response.extend(headers)
-
-        return new_response
-
-    return middleware
-
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
