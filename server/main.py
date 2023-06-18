@@ -1,7 +1,7 @@
 import sqlite3
 import datetime
 
-con = sqlite3.connect("/Users/arvind/Library/Messages/chat.db")
+con = sqlite3.connect("/Users/ashwin/Library/Messages/chat.db")
 cur = con.cursor()
 
 def nanoseconds_in_years(years):
