@@ -26,7 +26,7 @@ const TopicCard = ({
   }
 
   return (
-    <div className="outline hover:opacity-75 hover:bg-slate-300 p-4" onClick={handleClick}>
+    <div className="outline hover:opacity-75 hover:bg-slate-300 p-4 drop-shadow-lg" onClick={handleClick}>
       <div className="flex justify-between">
         <div className="flex">
           <h1 className="text-xl">{emoji}</h1>
