@@ -9,7 +9,7 @@ app = Flask(__name__)
 def get_topics():
     messages = db.get_messages(days_ago=1)
     topics = llm.generate_topics(messages)
-    
+
     reponse = []
     topic_id = 0
     for emoji, title, IDs in topics:
@@ -28,3 +28,4 @@ def get_topics():
 
 if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=8000)
+    print("Server running: http://localhost:8000/")
