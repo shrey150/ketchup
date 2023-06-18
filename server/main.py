@@ -5,6 +5,7 @@ import db
 import llm
 import py_imessage
 from pprint import pprint
+import Contacts
 
 app = FastAPI()
 app.debug = True
