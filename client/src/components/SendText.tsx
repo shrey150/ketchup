@@ -13,12 +13,13 @@ const SendText = ({textResponse, sender}: sendTextProp) => {
     const state = useKetchupState();
 
     return (
-        <div className="flex flex-row items-center bg-rose-100 p-2 rounded">
-            <HiOutlineSparkles/>
-            <input className="overflow-auto" type="Text" value={textResponse}></input>
+        <div className="flex flex-row items-center justify-between bg-rose-100 p-2 rounded">
+            <HiOutlineSparkles />
+            <input className="overflow-auto flex-grow px-4 rounded-lg mx-2" type="Text" value={textResponse}></input>
             <button onClick={(e) => {
                 e.stopPropagation();
                 state.sendMessage(textResponse, sender)
+                alert('Message sent!')
             }}>
                 <BsSend />
             </button>

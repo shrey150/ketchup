@@ -36,7 +36,7 @@ const Home: NextPage = () => {
       <h1 className="text-center text-3xl mb-11 font-bold">🍅 Ketchup</h1>
 
       {state.topics.length > 0 ? (
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-3 gap-8">
           {state.topics.map(({ id, name, description, messageCount, emoji, summary, textResponse, sender }) => (
             <TopicCard
               id={id}
