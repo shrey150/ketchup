@@ -19,7 +19,7 @@ def generate_topics(messages):
         messages=[
             {
                 "role": "system",
-                "content": "Organize these messages into topics. For each topic, come up with a title for the topic that starts with an emoji, followed by a colon, followed by a comma-seperated list of message IDs."
+                "content": "Organize these messages into topics. For each topic, come up with a title for the topic, followed by a colon, followed by an emoji for the title, followed by a colon, followed by a comma-seperated list of message IDs."
             },
             {
                 "role": "user",
@@ -34,12 +34,9 @@ def generate_topics(messages):
     for line in lines:
         if not line: continue
 
-        title, IDs = line.split(":")
+        title, emoji, IDs = line.split(":")
 
-        print(title)
-
-        emoji = title[0]
-        title = title[1:].strip()
+        title = title.strip()
 
         IDs = [int(ID.strip()) for ID in IDs.split(",")]
 
