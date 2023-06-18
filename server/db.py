@@ -6,6 +6,22 @@ user = getpass.getuser()
 con = sqlite3.connect(f"/Users/{user}/Library/Messages/chat.db", check_same_thread=False)
 cur = con.cursor()
 
+def count_unread_messages(days_ago):
+
+    now = datetime.datetime.now()
+    delta = datetime.timedelta(days=days_ago)
+
+    response = cur.execute(f"""SELECT COUNT(*) as unread_count
+                                FROM message
+                                JOIN handle ON message.handle_id = handle.ROWID
+                                JOIN chat ON message.cache_roomnames = chat.room_name
+                                WHERE datetime(date/1000000000 + 978307200,'unixepoch','localtime') >= '{now - delta}'
+                                AND is_read = 0
+                                AND is_from_me = 0
+                                AND text is NOT NULL
+                                """)
+    return response.fetchone()[0]
+
 def organize_by_chat(messages):
 
     chats = {}

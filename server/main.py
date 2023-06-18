@@ -19,6 +19,10 @@ app.add_middleware(
 def ping():
     return { 'pong' }
 
+@app.get("/api/unread-count")
+def get_unread_count():
+    return db.count_unread_messages(days_ago=1)
+
 @app.get("/api/topics")
 def get_topics():
     print('Fetching messages')
