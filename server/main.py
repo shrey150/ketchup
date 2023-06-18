@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import db
 import llm
+import py-imessage
 from pprint import pprint
 
 app = FastAPI()
@@ -112,6 +113,10 @@ def get_unread_messages():
         topic_id += 1
     print('Returning topics')
     return response
+
+@app.post("/api/send-message")
+def send_message():
+    print("Attempting to send message")
 
 def my_middleware(app):
     def middleware(environ, start_response):
