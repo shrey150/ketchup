@@ -3,12 +3,8 @@ import sqlite3
 import datetime
 
 user = getpass.getuser()
-con = sqlite3.connect(f"/Users/{user}/Library/Messages/chat.db")
+con = sqlite3.connect(f"/Users/{user}/Library/Messages/chat.db", check_same_thread=False)
 cur = con.cursor()
-
-
-        
-
 
 def get_messages(days_ago):
 

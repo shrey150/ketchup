@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from waitress import serve
+from flask import Flask
 import db
 import llm
 
-app = FastAPI()
+app = Flask(__name__)
 
 @app.get("/topics")
 def get_topics():
@@ -19,6 +20,9 @@ def get_topics():
         for ID in topic_messages_dict:
             text, date, handle_id, display_name = topic_messages_dict[ID]
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        reponse.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(topic_messages, key=lambda msg: msg.date).date, "messages": topic_messages})
+        reponse.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(topic_messages, key=lambda msg: msg[2])[2], "messages": topic_messages})
         topic_id += 1
     return reponse
+
+if __name__ == '__main__':
+    serve(app, host='0.0.0.0', port=8000)
