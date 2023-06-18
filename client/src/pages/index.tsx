@@ -19,8 +19,8 @@ const Home: NextPage = () => {
 
   useInterval(async () => {
     state.fetchUnreadCount();
-    if (state.unreadCount > MSG_THRESHOLD) {
-      state.sendToast('YO!')
+    if (state.unreadCount > MSG_THRESHOLD && !state.onboarded) {
+      state.sendToast('')
     }
   }, 1000)
 

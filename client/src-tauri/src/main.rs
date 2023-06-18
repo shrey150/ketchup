@@ -3,19 +3,27 @@
     windows_subsystem = "windows"
 )]
 
-use tauri::{CustomMenuItem, SystemTrayMenu, SystemTray, SystemTrayEvent};
+use tauri::{
+    api::dialog::ask, http::ResponseBuilder, CustomMenuItem, Event, GlobalShortcutManager, Manager,
+    RunEvent, SystemTray, SystemTrayEvent, SystemTrayMenu, WindowBuilder, WindowUrl,
+  };
 
 fn main() {
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    let tray_menu = SystemTrayMenu::new()
+        .add_item(CustomMenuItem::new("focus", "Get back on track"))
+        .add_item(CustomMenuItem::new("quit", "Quit"));
 
-    let tray_menu = SystemTrayMenu::new().add_item(quit);
-    let tray = SystemTray::new().with_menu(tray_menu);
-
-    tauri::Builder::default()
-        .system_tray(tray)
+    #[allow(unused_mut)]
+    let mut app = tauri::Builder::default()
+        .system_tray(SystemTray::new().with_menu(tray_menu))
         .on_system_tray_event(|_app, event| match event {
             SystemTrayEvent::MenuItemClick { id, .. } => {
                 match id.as_str() {
+                    "focus" => {
+                        let window = _app.get_window("main").unwrap();
+                        window.show().unwrap();
+                        window.set_focus().unwrap();
+                    }
                     "quit" => {
                         std::process::exit(0);
                     }
@@ -24,6 +32,18 @@ fn main() {
             }
             _ => {}
         })
-        .run(tauri::generate_context!())
+        .build(tauri::generate_context!())
         .expect("error while running tauri application");
+
+    #[cfg(target_os = "macos")]
+    app.set_activation_policy(tauri::ActivationPolicy::Regular);
+
+    app.run(move |_app_handle, _event| {
+        #[cfg(all(desktop, not(test)))]
+        if let RunEvent::ExitRequested { api, .. } = &_event {
+            // Keep the event loop running even if all windows are closed
+            // This allow us to catch system tray events when there is no window
+            api.prevent_exit();
+        }
+    })
 }

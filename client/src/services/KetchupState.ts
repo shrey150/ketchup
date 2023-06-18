@@ -24,6 +24,7 @@ export interface Message {
 export interface KetchupProps {
   topics: Topic[];
   unreadCount: number;
+  onboarded: boolean;
 }
 
 export interface KetchupActions {
@@ -97,6 +98,7 @@ export const useKetchupState = create(
   immer<KetchupProps & KetchupActions>((set, get) => ({
     topics: [],
     unreadCount: 0,
+    onboarded: false, // indicates whether user has opened app after passing unread threshold
 
     ping: async () => {
       try {
@@ -125,9 +127,12 @@ export const useKetchupState = create(
         permissionGranted = permission === 'granted';
       }
       if (permissionGranted) {
-        sendNotification('Tauri is awesome!');
-        sendNotification({ title: 'Time for', body: 'this mf to build' });
+        sendNotification({
+          title: 'Ketchup',
+          body: 'It\'s time to get back on track.',
+        });
       }
+      set({ onboarded: true })
     },
 
     getTopics: async () => {
