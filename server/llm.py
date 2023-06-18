@@ -1,3 +1,4 @@
+import sys
 import openai
 from dotenv import load_dotenv
 import os
@@ -8,13 +9,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generate_topics(messages):
     prompt = ""
-
-    llm_friendly_map = {}
-    llm_friendly_messages = {}
-
-    for n, row_id in enumerate(messages):
-        llm_friendly_messages[n] = messages[row_id]
-        llm_friendly_map[n] = row_id
 
     for row_id in messages:
         text, date, handle_id, display_name = messages[row_id]
@@ -40,13 +34,17 @@ def generate_topics(messages):
     for line in lines:
         if not line: continue
 
-        title, emoji, IDs = line.split(":")
+        try:
+            title, emoji, IDs = line.split(":")
 
-        title = title.strip()
+            title = title.strip()
 
-        IDs = [llm_friendly_map[int(ID.strip())] for ID in IDs.split(",")]
+            IDs = [int(ID.strip()) for ID in IDs.split(",")]
 
-        topics.append((emoji, title, IDs))
+            topics.append((emoji, title, IDs))
+        except:
+            print(line)
+            sys.exit(1)
 
     return topics
 
@@ -57,7 +55,7 @@ def generate_summary(messages):
     for row_id in messages:
         text, date, handle_id, display_name = messages[row_id]
         prompt += f"{text}\n"
-    
+
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
@@ -81,7 +79,7 @@ def generate_bullets(messages):
     for row_id in messages:
         text, date, handle_id, display_name = messages[row_id]
         prompt += f"{handle_id}: {text}\n"
-    
+
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
