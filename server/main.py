@@ -25,11 +25,11 @@ def ping():
 
 contacts =  ContactInfo().get()
 
-class Input(BaseModel):
+class ContactInfoInput(BaseModel):
     identifiers: List[str]
 
 @app.post("/api/contact-info")
-def get_contact_info(input: Input):
+def get_contact_info(input: ContactInfoInput):
     identifiers = input.identifiers
     return [contacts[identifier] for identifier in identifiers]
 
