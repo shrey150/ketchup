@@ -57,11 +57,13 @@ def get_topics():
         print('Generating text response')
         topic_messages = []
         dates = []
+        sender = ""
         for ID in topic_messages_dict:
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
+            sender = guid if display_name is not None else handle_id
+        response.append({"id": topic_id, "emoji": emoji, "sender": sender, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
     return response
