@@ -13,6 +13,7 @@ export interface Topic {
   summary: string[];
   messages: Message[];
   textResponse: string;
+  sender: string;
 }
 
 export interface Message {

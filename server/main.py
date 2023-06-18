@@ -61,7 +61,14 @@ def get_topics():
         for ID in topic_messages_dict:
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
-            topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
+            topic_messages.append({
+                "groupName": display_name,
+                "senderName": handle_id,
+                "text": text,
+                "timestamp": date,
+                "fullName": contacts[handle_id]["name"] if handle_id in contacts else None,
+                "pic": contacts[handle_id]["image"] if handle_id in contacts else None,
+            })
             sender = guid if display_name is not None else handle_id
         response.append({"id": topic_id, "emoji": emoji, "category": category ,"sender": sender, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
