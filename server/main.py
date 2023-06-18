@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import db
 import llm
+import py_imessage
 from pprint import pprint
 
 app = FastAPI()
@@ -112,6 +113,17 @@ def get_unread_messages():
         topic_id += 1
     print('Returning topics')
     return response
+
+@app.post("/api/send-message")
+def send_message(input):
+    print("Attempting to send message")
+    message = input["message"]
+    roomName = input["roomName"]
+    if "chat" in roomName:
+        py_imessage.send_to_group(roomName, message)
+    else:
+        py_imessage.send_to_number(roomName, message)
+    print("Sent message")
 
 def my_middleware(app):
     def middleware(environ, start_response):
