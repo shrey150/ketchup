@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import Summary from "@/components/Summary"
 
 export type TopicCardProps = {
   id: number
@@ -34,11 +35,7 @@ const TopicCard = ({
         <h1 className="text-xl bg-red-600 text-white rounded-lg px-2">{numMessages}</h1>
       </div>
       <h3 className="text-sm">{description}</h3>
-      <ul className="list-disc p-4">
-        {summary.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
+      <Summary summary={summary} />
     </div>
   );
 }
