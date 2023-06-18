@@ -25,7 +25,7 @@ const TopicCard = ({
   }
 
   return (
-    <div className="hover:opacity-75 hover:bg-slate-300 p-4" onClick={handleClick}>
+    <div className="outline hover:opacity-75 hover:bg-slate-300 p-4" onClick={handleClick}>
       <div className="flex justify-between">
         <div className="flex">
           <h1 className="text-xl">{emoji}</h1>
@@ -34,6 +34,11 @@ const TopicCard = ({
         <h1 className="text-xl bg-red-600 text-white rounded-lg px-2">{numMessages}</h1>
       </div>
       <h3 className="text-sm">{description}</h3>
+      <ul className="list-disc p-4">
+        {summary.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
+      </ul>
     </div>
   );
 }

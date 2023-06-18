@@ -13,6 +13,7 @@ const TopicPage: NextPage = () => {
         <div>
             <h1>{router.query.id}</h1>
             <MessageList messages={message} />
+            <button onClick={() => router.back()}>[Back]</button>
         </div>
     )
 }
