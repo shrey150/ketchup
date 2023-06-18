@@ -53,13 +53,15 @@ def get_topics():
         summary = llm.generate_summary(topic_messages_dict)
         print('Generating bullets')
         bullets = llm.generate_bullets(topic_messages_dict)
+        text_response = llm.generate_response(topic_messages_dict)
+        print('Generating text response')
         topic_messages = []
         dates = []
         for ID in topic_messages_dict:
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
+        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
     return response
@@ -88,13 +90,15 @@ def get_topics_by_chat():
         summary = llm.generate_summary(topic_messages_dict)
         print('Generating bullets')
         bullets = llm.generate_bullets(topic_messages_dict)
+        print('Generating text response')
+        text_response = llm.generate_response(topic_messages_dict)
         topic_messages = []
         dates = []
         for ID in topic_messages_dict:
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
+        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
     return response
@@ -115,13 +119,15 @@ def get_unread_messages():
         summary = llm.generate_summary(topic_messages_dict)
         print('Generating bullets')
         bullets = llm.generate_bullets(topic_messages_dict)
+        print('Generating text response')
+        text_response = llm.generate_response(topic_messages_dict)
         topic_messages = []
         dates = []
         for ID in topic_messages_dict:
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
+        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
     return response

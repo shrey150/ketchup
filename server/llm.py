@@ -75,6 +75,30 @@ def generate_summary(messages):
 
     return response.choices[0].message.content
 
+def generate_response(messages):
+    prompt = ""
+
+    for row_id in messages:
+        text, date, handle_id, display_name, guid = messages[row_id]
+        prompt += f"{text}\n"
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        temperature=0.1,
+        messages=[
+            {
+                "role": "system",
+                "content": "Create a short response to the following messages in a conversation."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    )
+
+    return response.choices[0].message.content
+
 def generate_bullets(messages):
     prompt = ""
 

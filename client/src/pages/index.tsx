@@ -25,19 +25,23 @@ const Home: NextPage = () => {
 
       <h1 className="text-center text-3xl mb-11 font-bold">🍅 Ketchup</h1>
 
-      <div className="grid grid-cols-4 gap-8">
-        {state.topics.map(({ id, name, description, messageCount, emoji, summary }) => (
-          <TopicCard
-            id={id}
-            key={id}
-            name={name}
-            description={description}
-            messageCount={messageCount}
-            emoji={emoji}
-            summary={summary}
-          />
-        ))}
-      </div>
+      {state.topics.length > 0 ? (
+        <div className="grid grid-cols-4 gap-8">
+          {state.topics.map(({ id, name, description, messageCount, emoji, summary }) => (
+            <TopicCard
+              id={id}
+              key={id}
+              name={name}
+              description={description}
+              messageCount={messageCount}
+              emoji={emoji}
+              summary={summary}
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="text-center">Indexing messages...</p>
+      )}
     </div>
   )
 }

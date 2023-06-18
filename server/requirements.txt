@@ -1,3 +1,5 @@
 openai==0.27.8
 python-dotenv==1.0.0
 waitress==2.1.2
+pyobjc-framework-Contacts
+imessage-reader

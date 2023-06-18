@@ -34,8 +34,10 @@ const TopicCard = ({
         </div>
         <h1 className=" self-start text-xl bg-red-600 text-white rounded-lg px-2">{messageCount}</h1>
       </div>
-      <h3 className="text-sm">{description}</h3>
-      <Summary summary={summary} />
+      <h3 className="text-sm text-ellipsis overflow-x-hidden">{description}</h3>
+      <div className="text-ellipsis">
+        <Summary summary={summary} />
+      </div>
     </div>
   );
 }
