@@ -20,7 +20,7 @@ def count_unread_messages(days_ago):
                                 AND is_from_me = 0
                                 AND text is NOT NULL
                                 """)
-    return response.fetchone()[0]
+    return {'unreadCount': response.fetchone()[0]}
 
 def organize_by_chat(messages):
 

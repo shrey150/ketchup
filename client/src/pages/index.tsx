@@ -7,13 +7,22 @@ import { useEffect, useState } from "react"
 import TopicCard, { TopicCardProps } from "@/components/TopicCard"
 import { useGlobalShortcut } from "@/hooks/tauri/shortcuts"
 import { EXAMPLE_PAYLOAD, Topic, useKetchupState } from "@/services/KetchupState"
+import { useInterval } from "usehooks-ts"
 
 const Home: NextPage = () => {
   const state = useKetchupState();
+  const MSG_THRESHOLD = 1;
 
   useEffect(() => {
     state.getTopics();
   }, [])
+
+  useInterval(async () => {
+    state.fetchUnreadCount();
+    if (state.unreadCount > MSG_THRESHOLD) {
+      state.sendToast('YO!')
+    }
+  }, 1000)
 
   return (
     <div className="flex p-8 min-h-screen flex-col bg-white">

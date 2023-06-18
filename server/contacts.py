@@ -74,7 +74,8 @@ class ContactInfo:
         if not ok:
             print("Fetching contacts failed", error)
 
-        pprint(self.contacts)
+        print('Fetched contacts!')
+        # pprint(self.contacts)
 
 
 if __name__ == "__main__":
