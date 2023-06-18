@@ -88,7 +88,7 @@ def generate_bullets(messages):
         messages=[
             {
                 "role": "system",
-                "content": "Create a bulleted summary of the following messages associated with the phone number, using roughly three bullets in total. Each bullet should be a complete sentence beginning on a newline with zero extra characters."
+                "content": "Create a bulleted summary of the following messages associated with the phone number, using roughly three bullets in total. Each bullet should be a complete sentence beginning on a newline with zero extra characters. Do not include the bullet point characters themselves."
             },
             {
                 "role": "user",
