@@ -4,14 +4,14 @@ import { Message } from '../services/MessagesState'
 export type MessageProps = {
     messages: Message[]
 }
-const Message = ({messages}: MessageProps) => {
+const MessageList = ({messages}: MessageProps) => {
     return (
         <section id="message">
-            <div>
-                <h1> {messages[0].roomName}</h1>
+            <div className="bg-yellow">
+                {messages.map((message, index) => (<li key={index}>Group:{message.roomName}[{message.timestamp}],{message.senderName}:"{message.text}"</li>))}
             </div>
         </section>
     );
 };
 
-export default Message
+export default MessageList
