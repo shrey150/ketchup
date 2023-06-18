@@ -4,14 +4,13 @@ import Head from "next/head"
 import Image from "next/image"
 import { useState } from "react"
 
-import { Card } from "@/components/Card"
-import { CardButton } from "@/components/CardButton"
 import TopicCard, { TopicCardProps } from "@/components/TopicCard"
 import { useGlobalShortcut } from "@/hooks/tauri/shortcuts"
-import { EXAMPLE_PAYLOAD, Topic } from "@/services/KetchupState"
+import { EXAMPLE_PAYLOAD, Topic, useKetchupState } from "@/services/KetchupState"
 
 const Home: NextPage = () => {
-  const [topics, setTopics] = useState<Topic[]>(EXAMPLE_PAYLOAD.topics)
+  const state = useKetchupState();
+  const [topics, setTopics] = useState<Topic[]>(state.topics)
 
   return (
     <div className="flex p-8 min-h-screen flex-col bg-white">
