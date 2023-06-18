@@ -1,3 +1,4 @@
+from flask_cors import CORS
 from waitress import serve
 from flask import Flask, current_app
 from flask_cors import CORS
