@@ -8,7 +8,7 @@ import { Card } from "@/components/Card"
 import { CardButton } from "@/components/CardButton"
 import TopicCard, { TopicCardProps } from "@/components/TopicCard"
 import { useGlobalShortcut } from "@/hooks/tauri/shortcuts"
-import { EXAMPLE_PAYLOAD, Topic } from "@/services/MessagesState"
+import { EXAMPLE_PAYLOAD, Topic } from "@/services/KetchupState"
 
 const Home: NextPage = () => {
   const [topics, setTopics] = useState<Topic[]>(EXAMPLE_PAYLOAD.topics)
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className="text-center text-3xl mb-11">🍅 Ketchup</h1>
+      <h1 className="text-center text-3xl mb-11 font-bold">🍅 Ketchup</h1>
 
       <div className="grid grid-cols-4 gap-8">
         {topics.map(({ id, name, description, numMessages, emoji, summary }) => (

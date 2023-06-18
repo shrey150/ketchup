@@ -1,18 +1,33 @@
 import type { NextPage } from "next"
 import { useRouter } from "next/router"
-import { EXAMPLE_PAYLOAD_MESSAGE } from "@/services/MessagesState"
+import { EXAMPLE_PAYLOAD, Topic, useKetchupState} from "@/services/KetchupState"
 import MessageList from "@/components/MessageList"
-import { useState } from "react"
+import TopicBanner from "@/components/TopicBanner"
+import { useMemo, useState } from "react"
 
 
 const TopicPage: NextPage = () => {
     
     const router = useRouter()
-    const [message, setMessage] = useState(EXAMPLE_PAYLOAD_MESSAGE)
+
+    const state = useKetchupState();
+
+    
+    const topic = useMemo(() => (
+        state.topics.find(topic => topic.id === parseInt(router.query.id as string))
+    ), [state, router]);
+ 
     return (
         <div>
             <h1>{router.query.id}</h1>
-            <MessageList messages={message} />
+            {topic && <TopicBanner
+                id={topic.id}
+                name={topic.name}
+                description={topic.description}
+                numMessages={topic.numMessages}
+                emoji={topic.emoji}
+            />}
+            <MessageList messages={topic?.messages ?? []} />
             <button onClick={() => router.back()}>[Back]</button>
         </div>
     )

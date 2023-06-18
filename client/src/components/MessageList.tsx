@@ -1,5 +1,5 @@
 import React from 'react'
-import { Message } from '../services/MessagesState'
+import { Message } from '../services/KetchupState'
 
 export type MessageProps = {
     messages: Message[]
@@ -7,7 +7,7 @@ export type MessageProps = {
 const MessageList = ({messages}: MessageProps) => {
     return (
         <section id="message">
-            <div className="bg-yellow">
+            <div className="overflow-auto">
                 {messages.map((message, index) => (<li key={index}>Group:{message.roomName}[{message.timestamp}],{message.senderName}:"{message.text}"</li>))}
             </div>
         </section>
