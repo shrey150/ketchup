@@ -6,6 +6,7 @@ import llm
 import py_imessage
 from pprint import pprint
 import Contacts
+from server.contacts import ContactInfo
 
 app = FastAPI()
 app.debug = True
@@ -20,6 +21,12 @@ app.add_middleware(
 @app.get('/ping')
 def ping():
     return { 'pong' }
+
+contacts =  ContactInfo().get()
+
+@app.get("/api/contacts/{identifier}")
+def get_contact_info(identifier):
+    return contacts[identifier]
 
 @app.get("/api/unread-count")
 def get_unread_count():
@@ -53,7 +60,7 @@ def get_topics():
     return response
 
 @app.get("/api/topics/by-chat")
-def get_topics():
+def get_topics_by_chat():
     print('Fetching messages')
 
     messages = db.get_messages(days_ago=1)
