@@ -8,7 +8,10 @@ class ContactInfo:
         if contact.isKeyAvailable_(Contacts.CNContactPhoneNumbersKey):
             numbers = list(val.value().stringValue() for val in contact.phoneNumbers())
             for n in numbers:
-                self.contacts[n] = (contact.givenName() + " " + contact.familyName()).strip()
+                self.contacts[n] = {
+                    'name': (contact.givenName() + " " + contact.familyName()).strip(),
+                    'image': f'data:image/jpg;base64,{contact.imageData().base64Encoding()}' if contact.imageData() else None,
+                }
         else:
             print("Contact without e-mail")
 
@@ -24,7 +27,13 @@ class ContactInfo:
         )
 
         fetchRequest = Contacts.CNContactFetchRequest.alloc().initWithKeysToFetch_(
-            [Contacts.CNContactEmailAddressesKey, Contacts.CNContactPhoneNumbersKey, Contacts.CNContactGivenNameKey, Contacts.CNContactFamilyNameKey]
+            [
+                Contacts.CNContactEmailAddressesKey,
+                Contacts.CNContactPhoneNumbersKey,
+                Contacts.CNContactGivenNameKey,
+                Contacts.CNContactFamilyNameKey,
+                Contacts.CNContactImageDataKey,
+            ]
         )
 
         store = Contacts.CNContactStore.alloc().init()

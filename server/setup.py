@@ -7,7 +7,7 @@ Usage:
 
 from setuptools import setup
 
-APP = ['contacts.py']
+APP = ['main.py']
 DATA_FILES = []
 OPTIONS = {
     'plist': {
