@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
+import axios from 'axios'
 
 export interface Topic {
   id: number
@@ -118,8 +119,13 @@ export const useKetchupState = create(
         // set({ topics })
 
         // rewrite the above request using axios
-        const res = await fetch("http://localhost:8000/api/topics")
-        const topics = await res.json()
+        const res = await axios.get("http://localhost:8000/api/topics", {
+          timeout: 1000*5*60,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        const topics = res.data
         console.log(topics)
         set({ topics })
 
