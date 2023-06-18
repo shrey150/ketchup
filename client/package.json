@@ -2,7 +2,7 @@
   "name": "ketchup",
   "version": "0.1.0",
   "scripts": {
-    "next-start": "cross-env BROWSER=none next dev",
+    "next-start": "next dev",
     "next-build": "next build && next export",
     "tauri": "tauri",
     "build": "tauri build",

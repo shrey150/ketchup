@@ -94,4 +94,6 @@ def generate_bullets(messages):
         ],
     )
 
-    return response.choices[0].message.content
+    content = response.choices[0].message.content
+
+    return content.split("\n")
