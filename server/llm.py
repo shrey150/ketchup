@@ -10,7 +10,8 @@ def generate_topics(messages):
 
     prompt = ""
 
-    for row_id, text, date, handle_id, display_name in messages:
+    for row_id in messages:
+        text, date, handle_id, display_name = messages[row_id]
         prompt += f"{row_id}: {text}\n"
 
     response = openai.ChatCompletion.create(
@@ -18,7 +19,7 @@ def generate_topics(messages):
         messages=[
             {
                 "role": "system",
-                "content": "Organize these messages into topics. For each topic, respond with a topic title, followed by a colon, followed by a comma-seperated list of message IDs."
+                "content": "Organize these messages into topics. For each topic, come up with a title for the topic that starts with an emoji, followed by a colon, followed by a comma-seperated list of message IDs."
             },
             {
                 "role": "user",
@@ -35,10 +36,13 @@ def generate_topics(messages):
 
         title, IDs = line.split(":")
 
-        title = title.strip()
+        print(title)
+
+        emoji = title[0]
+        title = title[1:].strip()
 
         IDs = [int(ID.strip()) for ID in IDs.split(",")]
 
-        topics.append((title, IDs))
-    
+        topics.append((emoji, title, IDs))
+
     return topics

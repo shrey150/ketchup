@@ -6,6 +6,10 @@ user = getpass.getuser()
 con = sqlite3.connect(f"/Users/{user}/Library/Messages/chat.db")
 cur = con.cursor()
 
+
+        
+
+
 def get_messages(days_ago):
 
     now = datetime.datetime.now()
@@ -20,7 +24,10 @@ def get_messages(days_ago):
                             ORDER BY date DESC
                             """)
     
-    messages = response.fetchall()
+    messages = {}
+
+    for row_id, text, date, handle_id, display_name in response.fetchall():
+        messages[row_id] = (text, date, handle_id, display_name)
 
     return messages
 
@@ -40,6 +47,9 @@ def get_unread_messages(days_ago):
                             ORDER BY date DESC
                             """)
 
-    messages = response.fetchall()
+    messages = {}
+
+    for row_id, text, date, handle_id, display_name in response.fetchall():
+        messages[row_id] = (text, date, handle_id, display_name)
 
     return messages
