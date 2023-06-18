@@ -13,7 +13,7 @@ export interface Topic {
 }
 
 export interface Message {
-  roomName: string;
+  groupName: string;
   senderName: string;
   text: string;
   timestamp: string;

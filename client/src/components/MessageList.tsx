@@ -13,9 +13,8 @@ const MessageList = ({messages}: MessageProps) => {
                 {messages.map((message, index) => (
                     <div className= "flex flex-col bg-rose-200 rounded m-4">
                         <div key={index} className="flex flex-row space-x-3 m-2 justify-between">
-                            
                             <div className="flex flex-col text-ellipsis overflow-hidden rounded w-3/4 ">
-                                <h1 className="text-2xl font-bold">{message.roomName}</h1>
+                                <h1 className="text-2xl font-bold">{message.groupName}</h1>
                                 <h2 className="italic">{message.senderName}</h2>
                                 <h3 className="">"{message.text}"</h3>
                             </div>
