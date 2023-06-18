@@ -43,3 +43,27 @@ def generate_topics(messages):
         topics.append((emoji, title, IDs))
 
     return topics
+
+def generate_summary(messages):
+
+    prompt = ""
+
+    for row_id in messages:
+        text, date, handle_id, display_name = messages[row_id]
+        prompt += f"{text}\n"
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": "Create a one-sentence summary of the following messages."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    )
+
+    return response.choices[0].message.content
