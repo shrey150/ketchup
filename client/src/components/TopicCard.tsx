@@ -10,6 +10,7 @@ export type TopicCardProps = {
   emoji: string
   summary: string[]
   textResponse: string
+  sender: string
 }
 
 const TopicCard = ({
@@ -20,6 +21,7 @@ const TopicCard = ({
   emoji,
   summary,
   textResponse,
+  sender
 }: TopicCardProps) => {
 
   const router = useRouter()
@@ -44,7 +46,7 @@ const TopicCard = ({
       <div className="text-ellipsis mb-2">
         <Summary summary={summary} />
       </div>
-      <SendText textResponse={textResponse}/>
+      <SendText textResponse={textResponse} sender={sender} />
     </div>
   );
 }
