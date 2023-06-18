@@ -1,12 +1,13 @@
+from typing import Any, List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import uvicorn
 import db
 import llm
 import py_imessage
 from pprint import pprint
-import Contacts
-from server.contacts import ContactInfo
+from contacts import ContactInfo
 
 app = FastAPI()
 app.debug = True
@@ -24,9 +25,13 @@ def ping():
 
 contacts =  ContactInfo().get()
 
-@app.get("/api/contacts/{identifier}")
-def get_contact_info(identifier):
-    return contacts[identifier]
+class Input(BaseModel):
+    identifiers: List[str]
+
+@app.post("/api/contact-info")
+def get_contact_info(input: Input):
+    identifiers = input.identifiers
+    return [contacts[identifier] for identifier in identifiers]
 
 @app.get("/api/unread-count")
 def get_unread_count():
@@ -93,7 +98,6 @@ def get_topics_by_chat():
         topic_id += 1
     print('Returning topics')
     return response
-
 
 @app.get("/api/topics/unread")
 def get_unread_messages():
