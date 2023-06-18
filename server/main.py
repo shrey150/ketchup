@@ -137,8 +137,8 @@ def get_unread_messages():
 @app.post("/api/send-message")
 def send_message(input):
     print("Attempting to send message")
-    message = input["message"]
-    roomName = input["roomName"]
+    message = "'" + input["message"] + "'"
+    roomName = "'" + input["roomName"] + "'"
     if "chat" in roomName:
         message_sender.send_to_group(roomName, message)
     else:
