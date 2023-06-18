@@ -12,7 +12,7 @@ def get_messages(days_ago):
     now = datetime.datetime.now()
     delta = datetime.timedelta(days=days_ago)
 
-    response = cur.execute(f"""SELECT text, date, handle.id, chat.display_name
+    response = cur.execute(f"""SELECT message.ROWID, text, date, handle.id, chat.display_name
                             FROM message
                             JOIN handle ON message.handle_id = handle.ROWID
                             JOIN chat ON message.cache_roomnames = chat.room_name
@@ -30,7 +30,7 @@ def get_unread_messages(days_ago):
     now = datetime.datetime.now()
     delta = datetime.timedelta(days=days_ago)
 
-    response = cur.execute(f"""SELECT text, date, handle.id, chat.display_name
+    response = cur.execute(f"""SELECT message.ROWID, text, date, handle.id, chat.display_name
                             FROM message
                             JOIN handle ON message.handle_id = handle.ROWID
                             JOIN chat ON message.cache_roomnames = chat.room_name
