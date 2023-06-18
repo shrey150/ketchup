@@ -21,6 +21,8 @@ export interface Message {
   senderName: string;
   text: string;
   timestamp: string;
+  fullName: string;
+  pic: string;
 }
 
 export interface KetchupProps {
@@ -34,6 +36,7 @@ export interface KetchupActions {
   getTopics: () => void;
   sendMessage: (message: string, roomName: string) => Promise<void>;
   fetchUnreadCount: () => Promise<void>;
+  fetchStaticData: () => Promise<void>;
   sendToast: (message: string) => Promise<void>;
 }
 
@@ -102,6 +105,17 @@ export const useKetchupState = create(
     unreadCount: 0,
     onboarded: false, // indicates whether user has opened app after passing unread threshold
 
+    fetchStaticData: async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/static");
+        const json = await res.json();
+        console.log(json);
+        set({ topics: json });
+      } catch {
+        console.log("Error fetching static data");
+      }
+    },
+
     ping: async () => {
       try {
         const res = await fetch("http://localhost:8000/ping");
@@ -111,7 +125,6 @@ export const useKetchupState = create(
         console.log("Error pinging server");
       }
     },
-
 
     fetchUnreadCount: async () => {
       try {
@@ -172,7 +185,7 @@ export const useKetchupState = create(
     },
 
     sendMessage: async (message: string, roomName: string) => {
-      fetch("/api/messages", {
+      fetch("http://localhost:8000/api/send-message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

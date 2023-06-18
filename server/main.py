@@ -9,6 +9,8 @@ import message_sender
 from pprint import pprint
 from contacts import ContactInfo
 
+import json
+
 app = FastAPI()
 app.debug = True
 app.add_middleware(
@@ -31,6 +33,13 @@ class ContactInfoInput(BaseModel):
 class SendMessageInput(BaseModel):
     message: str
     roomName: str
+
+@app.get("/api/static")
+def get_payload_from_data_json_file():
+    f = open('/Users/shrey/Developer/ketchup/server/data.json', encoding='utf-8')
+    data_str = f.read()
+    data = json.loads(data_str)
+    return data
 
 @app.post("/api/contact-info")
 def get_contact_info(input: ContactInfoInput):

@@ -16,7 +16,10 @@ const SendText = ({textResponse, sender}: sendTextProp) => {
         <div className="flex flex-row items-center bg-rose-100 p-2 rounded">
             <HiOutlineSparkles/>
             <input className="overflow-auto" type="Text" value={textResponse}></input>
-            <button onClick={() => state.sendMessage(textResponse, sender)}>
+            <button onClick={(e) => {
+                e.stopPropagation();
+                state.sendMessage(textResponse, sender)
+            }}>
                 <BsSend />
             </button>
         </div>

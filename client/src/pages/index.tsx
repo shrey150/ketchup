@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const MSG_THRESHOLD = 1;
 
   useEffect(() => {
+    state.fetchStaticData();
     state.getTopics();
   }, [])
 
