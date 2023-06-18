@@ -13,7 +13,7 @@ def generate_topics(messages):
     print(messages)
 
     for row_id in messages:
-        text, date, handle_id, display_name = messages[row_id]
+        text, date, handle_id, display_name, guid = messages[row_id]
         prompt += f"{row_id}: {text}\n"
 
     response = openai.ChatCompletion.create(
@@ -55,7 +55,7 @@ def generate_summary(messages):
     prompt = ""
 
     for row_id in messages:
-        text, date, handle_id, display_name = messages[row_id]
+        text, date, handle_id, display_name, guid = messages[row_id]
         prompt += f"{text}\n"
 
     response = openai.ChatCompletion.create(
@@ -79,7 +79,7 @@ def generate_bullets(messages):
     prompt = ""
 
     for row_id in messages:
-        text, date, handle_id, display_name = messages[row_id]
+        text, date, handle_id, display_name, guid = messages[row_id]
         prompt += f"{handle_id}: {text}\n"
 
     response = openai.ChatCompletion.create(

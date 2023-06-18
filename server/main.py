@@ -42,7 +42,7 @@ def get_topics():
         topic_messages = []
         dates = []
         for ID in topic_messages_dict:
-            text, date, handle_id, display_name = topic_messages_dict[ID]
+            text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
         response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
