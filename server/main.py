@@ -1,8 +1,3 @@
-from flask_cors import CORS
-from waitress import serve
-from flask import Flask, current_app
-from flask_cors import CORS
-from flask import Flask
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -32,7 +27,7 @@ def get_topics():
     topics = llm.generate_topics(messages)
     print('Got topics!')
     pprint(topics)
-    reponse = []
+    response = []
     topic_id = 0
     for emoji, title, IDs in topics:
         topic_messages_dict = {ID: messages[ID] for ID in IDs}
@@ -46,10 +41,10 @@ def get_topics():
             text, date, handle_id, display_name = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        reponse.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
+        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
-    return reponse
+    return response
 
 
 def my_middleware(app):
