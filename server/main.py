@@ -47,7 +47,7 @@ def get_topics():
     pprint(topics)
     response = []
     topic_id = 0
-    for emoji, title, IDs in topics:
+    for emoji, title, category, IDs in topics:
         topic_messages_dict = {ID: messages[ID] for ID in IDs}
         print('Generating summary')
         summary = llm.generate_summary(topic_messages_dict)
@@ -61,7 +61,7 @@ def get_topics():
             text, date, handle_id, display_name, guid = topic_messages_dict[ID]
             dates.append(date)
             topic_messages.append({"groupName": display_name, "senderName": handle_id, "text": text, "timestamp": date})
-        response.append({"id": topic_id, "emoji": emoji, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
+        response.append({"id": topic_id, "emoji": emoji, "category": category, "name": title, "description": summary, "messageCount": len(IDs), "summary": bullets, "textResponse": text_response, "updatedAt": min(dates), "messages": topic_messages})
         topic_id += 1
     print('Returning topics')
     return response

@@ -25,7 +25,7 @@ def generate_topics(messages):
         messages=[
             {
                 "role": "system",
-                "content": "Organize these messages into topics. For each topic, come up with a title for the topic, followed by a colon, followed by an emoji for the title, followed by a colon, followed by a comma-seperated list of message IDs."
+                "content": "Organize these messages into topics. For each topic, come up with a title for the topic, followed by a colon, followed by an emoji for the title, followed by a colon, followed by a category for the topic (either work, personal, or other), followed by a colon, followed by a comma-seperated list of message IDs."
             },
             {
                 "role": "user",
@@ -41,13 +41,14 @@ def generate_topics(messages):
         if not line: continue
 
         try:
-            title, emoji, IDs = line.split(":")
+            title, emoji, category, IDs = line.split(":")
 
             title = title.strip()
+            emoji = emoji.strip()
 
             IDs = [int(ID.strip() ) for ID in filter(bool, IDs.split(","))]
 
-            topics.append((emoji, title, IDs))
+            topics.append((emoji, title, category, IDs))
         except:
             print(line)
             sys.exit(1)
@@ -112,7 +113,7 @@ def generate_bullets(messages):
             name = contacts[handle_id]['name']
         else:
             name = handle_id
-            
+
         prompt += f"{name}: {text}\n"
 
     response = openai.ChatCompletion.create(
