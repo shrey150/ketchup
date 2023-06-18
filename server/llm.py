@@ -2,8 +2,11 @@ import sys
 import openai
 from dotenv import load_dotenv
 import os
+from contacts import ContactInfo
 
 load_dotenv()
+
+contacts = ContactInfo().get()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -104,7 +107,13 @@ def generate_bullets(messages):
 
     for row_id in messages:
         text, date, handle_id, display_name, guid = messages[row_id]
-        prompt += f"{handle_id}: {text}\n"
+
+        if handle_id in contacts:
+            name = contacts[handle_id]['name']
+        else:
+            name = handle_id
+            
+        prompt += f"{name}: {text}\n"
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
