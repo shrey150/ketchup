@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
       {state.topics.length > 0 ? (
         <div className="grid grid-cols-4 gap-8">
-          {state.topics.map(({ id, name, description, messageCount, emoji, summary }) => (
+          {state.topics.map(({ id, name, description, messageCount, emoji, summary, textResponse }) => (
             <TopicCard
               id={id}
               key={id}
@@ -45,6 +45,7 @@ const Home: NextPage = () => {
               messageCount={messageCount}
               emoji={emoji}
               summary={summary}
+              textResponse={textResponse}
             />
           ))}
         </div>

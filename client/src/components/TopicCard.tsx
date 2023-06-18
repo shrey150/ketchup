@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import Summary from "@/components/Summary"
+import SendText from "@/components/SendText"
 
 export type TopicCardProps = {
   id: number
@@ -8,6 +9,7 @@ export type TopicCardProps = {
   messageCount: number
   emoji: string
   summary: string[]
+  textResponse: string
 }
 
 const TopicCard = ({
@@ -17,6 +19,7 @@ const TopicCard = ({
   messageCount,
   emoji,
   summary,
+  textResponse,
 }: TopicCardProps) => {
 
   const router = useRouter()
@@ -38,9 +41,10 @@ const TopicCard = ({
       <h3 className="text-sm italic text-ellipsis overflow-x-hidden">{description}</h3>
       </div>
       
-      <div className="text-ellipsis">
+      <div className="text-ellipsis mb-2">
         <Summary summary={summary} />
       </div>
+      <SendText textResponse={textResponse}/>
     </div>
   );
 }
