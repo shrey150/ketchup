@@ -6,7 +6,7 @@ export interface Topic {
   id: number
   name: string
   emoji: string
-  numMessages: number
+  messageCount: number
   description: string
   summary: string[]
   messages: Message[]
@@ -35,7 +35,7 @@ export const EXAMPLE_PAYLOAD = {
       id: 0,
       name: "Craft2",
       emoji: "👩‍🎨",
-      numMessages: 50,
+      messageCount: 50,
       description: "A cool topic about Craft2",
       summary: [
         "Craft2 is a group of people who like to make things.",
@@ -393,7 +393,7 @@ export const EXAMPLE_PAYLOAD = {
       id: 1,
       name: "Gamers",
       emoji: "🔥",
-      numMessages: 99,
+      messageCount: 99,
       description: "A cool topic about gamers",
       summary: [
         "Gamers are oppressed.",

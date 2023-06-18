@@ -27,7 +27,7 @@ const TopicPage: NextPage = () => {
                         id={topic.id}
                         name={topic.name}
                         description={topic.description}
-                        numMessages={topic.numMessages}
+                        messageCount={topic.messageCount}
                         emoji={topic.emoji}
                     />}
                 </div>
