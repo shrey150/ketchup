@@ -9,6 +9,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def generate_topics(messages):
     prompt = ""
 
+    llm_friendly_map = {}
+    llm_friendly_messages = {}
+
+    for n, row_id in enumerate(messages):
+        llm_friendly_messages[n] = messages[row_id]
+        llm_friendly_map[n] = row_id
+
     for row_id in messages:
         text, date, handle_id, display_name = messages[row_id]
         prompt += f"{row_id}: {text}\n"
@@ -37,7 +44,7 @@ def generate_topics(messages):
 
         title = title.strip()
 
-        IDs = [int(ID.strip()) for ID in IDs.split(",")]
+        IDs = [llm_friendly_map(int(ID.strip())) for ID in IDs.split(",")]
 
         topics.append((emoji, title, IDs))
 
