@@ -44,7 +44,7 @@ def generate_topics(messages):
 
         title = title.strip()
 
-        IDs = [llm_friendly_map(int(ID.strip())) for ID in IDs.split(",")]
+        IDs = [llm_friendly_map[int(ID.strip())] for ID in IDs.split(",")]
 
         topics.append((emoji, title, IDs))
 
